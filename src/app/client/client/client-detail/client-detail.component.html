@@ -1,0 +1,112 @@
+<div class="col-md-6" *ngIf="clientDetail">
+    <!-- BEGIN Portlet PORTLET-->
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption">
+
+                <span class="caption-subject bold font-grey-gallery uppercase">{{clientDetail?.prenom}} {{clientDetail?.nom}}</span>
+                <span class="caption-helper">...</span>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <img style="max-width:100%" src="{{clientDetail?.imgPath}}" />
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="mt-element-list">
+                        <div class="mt-list-head list-simple ext-1 font-white bg-green-sharp">
+                            <div class="list-head-title-container">
+                                <h3 class="list-title">Simple List</h3>
+                            </div>
+                        </div>
+                        <div class="mt-list-container list-simple ext-1">
+                            <ul>
+
+                                <li class="mt-list-item done">
+                                    <div class="list-icon-container">
+                                        <span class="glyphicon glyphicon-phone"></span>
+                                    </div>
+                                    <div style="padding-right: 10px" class="list-item-content">
+                                        <h3>
+                                            {{clientDetail?.telephone}}
+                                        </h3>
+                                    </div>
+                                </li>
+                                <li class="mt-list-item">
+                                    <div class="list-icon-container">
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </div>
+                                    <div style="padding-right: 10px" class="list-item-content">
+                                        <h3>
+                                            {{clientDetail?.email}}
+                                        </h3>
+                                    </div>
+                                </li>
+                                <li class="mt-list-item done">
+                                    <div class="list-icon-container">
+                                        <span class="glyphicon glyphicon-home"></span>
+                                    </div>
+                                    <div style="padding-right: 10px" class="list-item-content">
+                                        <h3>
+                                            {{clientDetail?.rue}}, {{clientDetail?.zipcode}}, {{clientDetail?.ville}}
+                                        </h3>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <hr/>
+            <a class="col-xs-12 btn dark btn-outline sbold btn-block" data-toggle="modal" href="#basic">Afficher sur la map </a>
+            <hr/>
+            <sebm-google-map [hidden]="true" [latitude]="lat" [longitude]="lng">
+                <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+            </sebm-google-map>
+
+            <hr/>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <button class="btn btn-primary btn-block" (click)="onEdit(clientDetail)">Edit</button>
+                </div>
+                <div class="col-xs-6">
+                    <button class="btn btn-danger btn-block" (click)="onDelete(clientDetail)">Supprimer</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- END GRID PORTLET-->
+</div>
+
+
+
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body"> Modal body goes here <br/>
+                <sebm-google-map [latitude]="lat" [longitude]="lng">
+                    <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+                </sebm-google-map>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                <button type="button" class="btn green">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

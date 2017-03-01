@@ -1,0 +1,36 @@
+<div class="alert alert-danger fade in alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>Danger!</strong> This alert box indicates a dangerous or potentially negative action.
+</div>
+<div class="search-page search-content-1">
+    <div class="search-bar">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="input-group">
+                    <input #searchBox id="search-box" (keyup)="search(searchBox.value)" type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn blue uppercase bold" type="button">Search</button>
+                    </span>
+                </div>
+                <div>
+                    <div *ngFor="let client of clients | async" (click)="gotoDetail(client)">
+                        {{client.nom}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <p class="search-desc clearfix"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis,
+                    leo in tristique scelerisque. </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-warning alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+    <strong>Warning!</strong> Something went wrong. Please check. </div>
+
+
+<sebm-google-map [latitude]="lat" [longitude]="lng">
+    <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+</sebm-google-map>
