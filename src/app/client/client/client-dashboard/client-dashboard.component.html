@@ -14,7 +14,7 @@
                 </div>
                 <div>
                     <div *ngFor="let client of clients | async" (click)="gotoDetail(client)">
-                        {{client.nom}}
+                        {{client.nom}}  {{client.prenom}}
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ export class ClientSearchService {
 
     search(term: string): Observable<Client[]> {
         return this.http
-            .get(`api/clients/?name=${term}`)
+            .get(`api/clients?prenom=${term}`)
             .map((r: Response) => r.json().data as Client[])
             .catch((error: any) => {
                 console.error('An friendly error occurred', error);

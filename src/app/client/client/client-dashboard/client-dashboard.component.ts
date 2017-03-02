@@ -32,11 +32,11 @@ export class ClientDashboardComponent implements OnInit {
 
   search(term: string): void {
     // Push a search term into the observable stream.
-    console.log(term);
     this.searchTerms.next(term);
   }
 
   ngOnInit(): void {
+    //console.log(this.searchTerms.this.clientSearchService.search('san'));
     this.clients = this.searchTerms
       .debounceTime(300)        // wait for 300ms pause in events
       .distinctUntilChanged()   // ignore if next search term is same as previous
@@ -57,7 +57,7 @@ ngOnChanges(changes) {
     }
 
   gotoDetail(client: Client): void {
-    let link = ['/edit', client.id];
+    let link = ['/client/edit', client.id];
     this.router.navigate(link);
   }
 
