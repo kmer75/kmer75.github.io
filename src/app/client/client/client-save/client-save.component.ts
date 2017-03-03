@@ -7,6 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Component, NgModule, NgZone, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BrowserModule } from "@angular/platform-browser";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-client-save',
@@ -20,10 +21,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   public searchControl: FormControl;
   public zoom: number;
   autocomplete: any = null;
-  ville: string = '';
-  rue: string = '';
-  zipcode: string = '';
-  pays: string = 'France';
+  
 
   isEdit: boolean = false;
 
@@ -36,6 +34,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     private location: Location,
     private route: ActivatedRoute,
     private mapsAPILoader: MapsAPILoader,
+    private elementRef: ElementRef,
     private ngZone: NgZone) {
 
   }
@@ -58,6 +57,15 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    
+    jQuery(this.elementRef.nativeElement).find('#clickJson').on('click', function () {
+            
+            if (jQuery('#json').is(":visible")) {
+                    jQuery('#json').slideUp(300);
+                } else {  
+                    jQuery('#json').slideDown(300);
+                }
+    });
 
     if (this.router.url.indexOf('edit') >= 0) {
       console.log('route edit');
@@ -126,6 +134,9 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
         });
     }
 
+    console.log(this.clientForm);
+
+
   }
 
   buildForm() {
@@ -134,7 +145,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       'nom': [this.client.nom, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
       'prenom': [this.client.prenom, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
       'email': [this.client.email, [Validators.required, Validators.pattern(this.regexEmail)]],
-      'genre': [this.genres[0], [Validators.required]],
+      'genre': [this.client.genre, [Validators.required]],
       'description': [this.client.description, [Validators.required]],
       'telephone': [this.client.telephone, [Validators.required]],
       'adresse': [''],
@@ -152,7 +163,6 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
     this.onValueChanged(); // (re)set validation messages now
   }
-
 
 
   onValueChanged(data?: any) {
@@ -177,7 +187,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'nom': '',
     'prenom': '',
     'email': '',
-    // 'genre': '',
+    'genre': '',
     'description': '',
     'telephone': '',
     'rue': '',
@@ -191,7 +201,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'nom': 'Veuillez inscrire votre nom',
     'prenom': 'Veuillez inscrire votre prénom',
     'email': 'Veuillez inscrire votre adresse email',
-    // 'genre': '',
+    'genre': 'Veuillez choisir un genre',
     'description': 'Veuillez donner une courte description',
     'telephone': 'Veuillez inscrire votre numéro de téléphone au format : 0102030405',
     'adresse': 'Veuillez inscrire votre adresse (autocomplétion de celle-ci)',
@@ -200,43 +210,43 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   validationMessages = {
     'nom': {
-      'required': 'nom is required.'
+      'required': 'le nom est obligatoire.'
     },
     'prenom': {
-      'required': 'prenom is required.',
+      'required': 'prenom est obligatoire.',
       'minlength': 'prenom must be at least 4 characters long.',
       'maxlength': 'prenom cannot be more than 24 characters long.'
     },
     'email': {
-      'required': 'email is required.',
+      'required': 'email est obligatoire.',
       'pattern': 'adresse email non conforme'
     },
-    // 'genre': {
-    //   'required': 'genre is required.'
-    // },
+    'genre': {
+      'required': 'genre est obligatoire.'
+    },
     'description': {
-      'required': 'description is required.'
+      'required': 'description est obligatoire.'
     },
     'telephone': {
-      'required': 'telephone is required.'
+      'required': 'telephone est obligatoire.'
     },
     // 'adresse': {
-    //   'required': 'adresse is required.'
+    //   'required': 'adresse est obligatoire.'
     // },
     'rue': {
-      'required': 'rue is required.'
+      'required': 'rue est obligatoire.'
     },
     'code postal': {
-      'required': 'code postal is required.'
+      'required': 'code postal est obligatoire.'
     },
     'ville': {
-      'required': 'ville is required.'
+      'required': 'ville est obligatoire.'
     },
     'pays': {
-      'required': 'pays is required.'
+      'required': 'pays est obligatoire.'
     },
     'imgPath': {
-      'required': 'imgPath is required.'
+      'required': 'imgPath est obligatoire.'
     }
   };
 
@@ -258,12 +268,12 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     var lng = place.geometry.location.lng();
 
 
-    this.rue = rue;
-    this.ville = ville;
-    this.zipcode = zipcode;
-    this.pays = pays;
-    this.latitude = lat;
-    this.longitude = lng;
+    this.clientForm.value.rue = rue;
+    this.clientForm.value.ville = ville;
+    this.clientForm.value.zipcode = zipcode;
+    this.clientForm.value.pays = pays;
+    this.clientForm.value.latitude = lat;
+    this.clientForm.value.longitude = lng;
   }
 
   //methode google map pour set le marker sur la map

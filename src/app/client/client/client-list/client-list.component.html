@@ -18,13 +18,15 @@
     <div class="portlet-body">
       <h4>Derniers clients</h4>
 
-      <table class="table table-striped table-hover">
-        <tr>
+      <table class="table table-hover table-light">
+      <thead>
+        <tr class="uppercase">
           <!--<th>nom</th>-->
           <th>prenom</th>
           <th>description</th>
           <th>portrait</th>
         </tr>
+        </thead>
         <tr *ngFor="let client of clients" (click)="onSelect(client)">
           <!--<td>{{client.nom}}</td>-->
           <td>{{client.prenom}}</td>
