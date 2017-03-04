@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { ClientService } from './../client.service';
 import { Client } from './../Client';
+import { Adresse } from './../Adresse';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from "@angular/router";
@@ -18,10 +19,14 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   public latitude: number;
   public longitude: number;
+  public rue: string;
+  public ville: string;
+  public zipcode: string;
+  public pays: string;
   public searchControl: FormControl;
   public zoom: number;
   autocomplete: any = null;
-  
+
 
   isEdit: boolean = false;
 
@@ -39,7 +44,19 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   }
 
-  client: Client = new Client();
+  client: Client = {
+        id: 1, nom: '', prenom: '', description: '',
+        imgPath: '',
+        telephone: '', email: '', genre: '',
+        adresse: {
+    rue: "",
+    zipcode: "",
+    ville: "",
+    pays: "",
+    latitude: 47.22714149999999,
+    longitude: -1.6509673000000475
+  }
+      }
 
   genres: string[] = ['male', 'female'];
   clientForm: FormGroup;
@@ -48,6 +65,10 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     this.location.back();
   }
   onSubmit() {
+    if(!this.clientForm.valid) {
+      alert("formulaire non valide !");
+      return;
+    }
     var clientSaved: Client = this.clientForm.value as Client;
     console.log(this.clientForm);
     console.log(clientSaved);
@@ -57,12 +78,12 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    
+
     jQuery(this.elementRef.nativeElement).find('#clickJson').on('click', function () {
-            
+
             if (jQuery('#json').is(":visible")) {
                     jQuery('#json').slideUp(300);
-                } else {  
+                } else {
                     jQuery('#json').slideDown(300);
                 }
     });
@@ -101,7 +122,6 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
-          console.log(place);
           this.fillInAddress(place);
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
@@ -142,20 +162,23 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   buildForm() {
     this.clientForm = this.formBuilder.group({
       'id' : [this.client.id],
-      'nom': [this.client.nom, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
-      'prenom': [this.client.prenom, [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+      'nom': [this.client.nom, [Validators.required, Validators.minLength(2)]],
+      'prenom': [this.client.prenom, [Validators.required, Validators.minLength(2)]],
       'email': [this.client.email, [Validators.required, Validators.pattern(this.regexEmail)]],
       'genre': [this.client.genre, [Validators.required]],
       'description': [this.client.description, [Validators.required]],
       'telephone': [this.client.telephone, [Validators.required]],
-      'adresse': [''],
-      'rue': [this.client.rue, [Validators.required]],
-      'zipcode': [this.client.zipcode, [Validators.required]],
-      'ville': [this.client.ville, [Validators.required]],
-      'pays': [this.client.pays, [Validators.required]],
       'imgPath': [this.client.imgPath, [Validators.required]],
-      'latitude': [null, [Validators.required]],
-      'longitude': [null, [Validators.required]]
+      'autocomplete' : [''],
+      'adresse': this.formBuilder.group({
+      'rue': [this.client.adresse.rue, [Validators.required]],
+      'zipcode': [this.client.adresse.zipcode, [Validators.required]],
+      'ville': [this.client.adresse.ville, [Validators.required]],
+      'pays': [this.client.adresse.pays, [Validators.required]],
+      'latitude': [this.client.adresse.latitude],
+      'longitude': [this.client.adresse.longitude]
+      }),
+      
     });
 
     this.clientForm.valueChanges
@@ -175,6 +198,8 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       const control = form.get(field);
 
       if (control && control.dirty && !control.valid) {
+        console.log('control =>');
+        console.log(control);
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
@@ -190,10 +215,11 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'genre': '',
     'description': '',
     'telephone': '',
-    'rue': '',
-    'zipcode': '',
-    'ville': '',
-    'pays': '',
+    'autocomplete': '',
+    'adresse.rue': '',
+    'adresse.zipcode': '',
+    'adresse.ville': '',
+    'adresse.pays': '',
     'imgPath': ''
   };
 
@@ -204,18 +230,18 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'genre': 'Veuillez choisir un genre',
     'description': 'Veuillez donner une courte description',
     'telephone': 'Veuillez inscrire votre numéro de téléphone au format : 0102030405',
-    'adresse': 'Veuillez inscrire votre adresse (autocomplétion de celle-ci)',
+    'autocomplete': 'Veuillez inscrire votre adresse (autocomplétion de celle-ci)',
     'imgPath': 'Veuillez inscrire votre portrait'
   };
 
   validationMessages = {
     'nom': {
-      'required': 'le nom est obligatoire.'
+      'required': 'le nom est obligatoire.',
+      'minlength': 'nom doit contenir au moins 2 caractères.'
     },
     'prenom': {
       'required': 'prenom est obligatoire.',
-      'minlength': 'prenom must be at least 4 characters long.',
-      'maxlength': 'prenom cannot be more than 24 characters long.'
+      'minlength': 'prenom doit contenir au moins 2 caractères.'
     },
     'email': {
       'required': 'email est obligatoire.',
@@ -230,23 +256,23 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'telephone': {
       'required': 'telephone est obligatoire.'
     },
-    // 'adresse': {
-    //   'required': 'adresse est obligatoire.'
-    // },
-    'rue': {
+    'autocomplete': {
+      'required': 'adresse est obligatoire.'
+    },
+    'adresse.rue': {
       'required': 'rue est obligatoire.'
     },
-    'code postal': {
+    'adresse.code postal': {
       'required': 'code postal est obligatoire.'
     },
-    'ville': {
+    'adresse.ville': {
       'required': 'ville est obligatoire.'
     },
-    'pays': {
+    'adresse.pays': {
       'required': 'pays est obligatoire.'
     },
     'imgPath': {
-      'required': 'imgPath est obligatoire.'
+      'required': 'portrait est obligatoire.'
     }
   };
 
@@ -267,13 +293,40 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     var lat = place.geometry.location.lat();
     var lng = place.geometry.location.lng();
 
+    var adresse = {
+      rue : num + ' ' + rue,
+      ville : ville,
+      zipcode : zipcode,
+      pays : pays,
+      latitude : lat,
+      longitude : lng
+    }
+    // this.rue = rue;
+    // this.ville = ville;
+    // this.zipcode = zipcode;
+    // this.pays = pays;
+    // this.latitude = lat;
+    // this.longitude = lng;
 
-    this.clientForm.value.rue = rue;
-    this.clientForm.value.ville = ville;
-    this.clientForm.value.zipcode = zipcode;
-    this.clientForm.value.pays = pays;
-    this.clientForm.value.latitude = lat;
-    this.clientForm.value.longitude = lng;
+    this.clientForm.patchValue({
+    adresse: adresse
+});
+
+    // this.clientForm.value.rue = rue;
+    // this.clientForm.value.ville = ville;
+    // this.clientForm.value.zipcode = zipcode;
+    // this.clientForm.value.pays = pays;
+    // this.clientForm.value.latitude = lat;
+    // this.clientForm.value.longitude = lng;
+
+    // jQuery(this.elementRef.nativeElement).ready(function () {
+    //         jQuery('#rue').val(num + ' ' + rue);
+    //         jQuery('#ville').val(ville);
+    //         jQuery('#pays').val(pays);
+    //         jQuery('#zipcode').val(zipcode);
+    //         jQuery('#lat').val(lat);
+    //         jQuery('#lng').val(lng);
+    //     });
   }
 
   //methode google map pour set le marker sur la map

@@ -73,27 +73,33 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group form-md-line-input form-md-floating-label" [ngClass]="{'has-error': formErrors.adresse, 'has-success': !formErrors.adresse}">
-                                <input [ngClass]="{'edited':isEdit}" type="text" id="adresse" class="form-control" formControlName="adresse" autocorrect="off" autocapitalize="off" spellcheck="off"
+                            <div class="form-group form-md-line-input form-md-floating-label edited" [ngClass]="{'has-error': formErrors.adresse, 'has-success': !formErrors.adresse}">
+                                <input [ngClass]="{'edited':isEdit}" type="text" id="adresse" class="form-control" formControlName="autocomplete" autocorrect="off" autocapitalize="off" spellcheck="off"
                                     type="text" class="form-control" #search [formControl]="searchControl">
                                     <label for="adresse">adresse</label>
-                                    <span *ngIf="formErrors.adresse" class="help-block">{{ formErrors.adresse }}</span>
-                                    <span *ngIf="clientForm.controls.adresse.pristine" class="help-block">{{pristineMessages.adresse}}</span>
+                                    <span *ngIf="formErrors.adresse" class="help-block">{{ formErrors.autocomplete }}</span>
+                                    <span *ngIf="clientForm.controls.autocomplete.pristine" class="help-block">{{pristineMessages.autocomplete}}</span>
                             </div>
                         </div>
                     </div> 
+
+                    <div formGroupName="adresse">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
                                 <input [ngClass]="{'edited':isEdit}" readonly="" 
-                                 type="text" id="rue" class="form-control" formControlName="rue">
+                                 type="text" id="rue" class="form-control" formControlName="rue"
+                                 [value]="autocomplete ? autocomplete.getPlace()?.address_components[0].long_name 
+                                 + ' ' + autocomplete.getPlace()?.address_components[1].long_name : ''">
                                 <label for="rue">rue</label>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <input [ngClass]="{'edited':isEdit}" readonly=""  type="text" id="zipcode" class="form-control" formControlName="zipcode">
+                                <input [ngClass]="{'edited':isEdit}" readonly=""  type="text" 
+                                id="zipcode" class="form-control" formControlName="zipcode"
+                                [value]="autocomplete ? autocomplete.getPlace()?.address_components[6].long_name : ''">
                                 <label for="zipcode">code postal</label>
                             </div>
                         </div>
@@ -101,26 +107,33 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="ville" class="form-control" formControlName="ville">
+                                <input [ngClass]="{'edited':isEdit}" readonly="" type="text" 
+                                id="ville" class="form-control" formControlName="ville"
+                                [value]="autocomplete ? autocomplete.getPlace()?.address_components[2].long_name : ''">
                                 <label for="ville">ville</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="pays" class="form-control" formControlName="pays">
+                                <input [ngClass]="{'edited':isEdit}" readonly="" type="text" 
+                                id="pays" class="form-control" formControlName="pays"
+                                [value]="autocomplete ? autocomplete.getPlace()?.address_components[5].long_name : ''">
                                 <label for="pays">pays</label>
                             </div>
                         </div>
                     </div>
-
+                    
                     <p>Latitude:
-                        <input formControlName="latitude" type="text" id="latitude" readonly
+                        <input formControlName="latitude" type="text" id="lat" readonly
+                        [value]="autocomplete ? autocomplete.getPlace()?.geometry.location.lat() : ''"
                         />
                     </p>
                     <p>Longitude:
-                        <input formControlName="longitude" type="text" id="longitude" readonly />
+                        <input formControlName="longitude" type="text" id="lng" readonly 
+                        [value]="autocomplete ? autocomplete.getPlace()?.geometry.location.lng() : ''"
+                        />
                     </p>
-
+</div>
 
 
                     <div class="form-group form-md-radios has-success">
