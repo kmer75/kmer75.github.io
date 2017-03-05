@@ -13,17 +13,23 @@ import { Client } from './../Client';
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css'],
   animations: [
-    trigger('flyInOut', [
-      state('in', style({transform: 'translateX(0)', opacity : 1})),
-      transition('void => *', [
-        style({transform: 'translateX(-100%)', opacity : 0}),
-        animate(300)
-      ]),
-      transition('* => void', [
-        animate(300, style({transform: 'translateY(-100%)', opacity : 0}))
-      ])
+  trigger('flyInOut', [
+    state('in', style({opacity: 1, transform: 'translateX(0)'})),
+    transition('void => *', [
+      style({
+        opacity: 0,
+        transform: 'translateX(-100%)'
+      }),
+      animate('0.2s ease-in')
+    ]),
+    transition('* => void', [
+      animate('0.2s 10 ease-out', style({
+        opacity: 0,
+        transform: 'translateX(100%)'
+      }))
     ])
-  ]
+  ])
+]
 })
 export class ClientListComponent implements OnInit, OnChanges {
 
