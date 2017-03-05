@@ -1,6 +1,10 @@
 import { ClientSearchService } from './client-search-service';
 import { Client } from './../client';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, trigger,
+  state,
+  style,
+  transition,
+  animate } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -16,9 +20,28 @@ import 'rxjs/add/operator/switchMap';
   selector: 'app-client-dashboard',
   templateUrl: './client-dashboard.component.html',
   styleUrls: ['./client-dashboard.component.css'],
-  providers: [ClientSearchService]
+  providers: [ClientSearchService],
+  animations: [
+    trigger('testState', [
+      state('inactive', style({
+        backgroundColor: '#eee',
+        transform: 'scale(1)'
+      })),
+      state('active',   style({
+        backgroundColor: '#fff',
+        transform: 'scale(1.5)'
+      })),
+      transition('inactive <=> active', animate(300))
+    ])
+  ]
 })
 export class ClientDashboardComponent implements OnInit {
+  state = "inactive";
+  onClick(s) {
+    this.state == "inactive" ? this.state = "active" : this.state = "inactive";
+  }
+  string = 'mickael';
+
   title: string = 'My first angular2-google-maps project';
   lat: number = 51.678418;
   lng: number = 7.809007;

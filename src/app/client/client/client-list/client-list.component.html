@@ -27,7 +27,7 @@
           <th>portrait</th>
         </tr>
         </thead>
-        <tr *ngFor="let client of clients" (click)="onSelect(client)">
+        <tr [@flyInOut] *ngFor="let client of clients" (click)="onSelect(client)">
           <!--<td>{{client.nom}}</td>-->
           <td>{{client.prenom}}</td>
           <td>{{client.description}}</td>

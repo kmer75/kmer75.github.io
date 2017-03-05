@@ -60,6 +60,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   genres: string[] = ['male', 'female'];
   clientForm: FormGroup;
+  regexTel = "^[0-9]{10}$";
   regexEmail = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
   onCancel() {
     this.location.back();
@@ -167,7 +168,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       'email': [this.client.email, [Validators.required, Validators.pattern(this.regexEmail)]],
       'genre': [this.client.genre, [Validators.required]],
       'description': [this.client.description, [Validators.required]],
-      'telephone': [this.client.telephone, [Validators.required]],
+      'telephone': [this.client.telephone, [Validators.required, Validators.pattern(this.regexTel)]],
       'imgPath': [this.client.imgPath, [Validators.required]],
       'autocomplete' : [''],
       'adresse': this.formBuilder.group({
@@ -178,7 +179,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       'latitude': [this.client.adresse.latitude],
       'longitude': [this.client.adresse.longitude]
       }),
-      
+
     });
 
     this.clientForm.valueChanges
@@ -254,7 +255,8 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       'required': 'description est obligatoire.'
     },
     'telephone': {
-      'required': 'telephone est obligatoire.'
+      'required': 'telephone est obligatoire.',
+      'pattern': 'numéro de telephone non conforme'
     },
     'autocomplete': {
       'required': 'adresse est obligatoire.'

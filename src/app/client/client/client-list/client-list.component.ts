@@ -1,13 +1,29 @@
 import { Router } from '@angular/router';
 import { ClientService } from './../client.service';
-import { Component, OnInit, EventEmitter, Output, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnChanges, trigger,
+  state,
+  style,
+  transition,
+  animate } from '@angular/core';
 import { Client } from './../Client';
 
 
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.css']
+  styleUrls: ['./client-list.component.css'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({transform: 'translateX(0)', opacity : 1})),
+      transition('void => *', [
+        style({transform: 'translateX(-100%)', opacity : 0}),
+        animate(300)
+      ]),
+      transition('* => void', [
+        animate(300, style({transform: 'translateY(-100%)', opacity : 0}))
+      ])
+    ])
+  ]
 })
 export class ClientListComponent implements OnInit, OnChanges {
 
