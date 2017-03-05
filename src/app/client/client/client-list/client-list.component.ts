@@ -23,9 +23,10 @@ import { Client } from './../Client';
       animate('0.2s ease-in')
     ]),
     transition('* => void', [
-      animate('0.2s 10 ease-out', style({
+      animate('0.2s 200 ease-out', style({
+        backgroundColor: '#eb6d6d',
         opacity: 0,
-        transform: 'translateX(100%)'
+        transform: 'scale(0)'
       }))
     ])
   ])
