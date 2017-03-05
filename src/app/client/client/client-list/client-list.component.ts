@@ -1,10 +1,12 @@
 import { Router } from '@angular/router';
 import { ClientService } from './../client.service';
-import { Component, OnInit, EventEmitter, Output, Input, OnChanges, trigger,
+import {
+  Component, OnInit, EventEmitter, Output, Input, OnChanges, trigger,
   state,
   style,
   transition,
-  animate } from '@angular/core';
+  animate
+} from '@angular/core';
 import { Client } from './../Client';
 
 
@@ -12,25 +14,40 @@ import { Client } from './../Client';
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css'],
+  host: { '[@routeAnimation]': 'true' },
   animations: [
-  trigger('flyInOut', [
-    state('in', style({opacity: 1, transform: 'translateX(0)'})),
-    transition('void => *', [
-      style({
-        opacity: 0,
-        transform: 'translateX(-100%)'
-      }),
-      animate('0.2s ease-in')
+    trigger('flyInOut', [
+      state('in', style({ opacity: 1, transform: 'translateX(0)' })),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100px)'
+        }),
+        animate('0.5s 1s ease-in')
+      ]),
+      transition('* => void', [
+        animate('0.2s 200 ease-out', style({
+          backgroundColor: '#eb6d6d',
+          opacity: 0,
+          transform: 'scale(0)'
+        }))
+      ])
     ]),
-    transition('* => void', [
-      animate('0.2s 200 ease-out', style({
-        backgroundColor: '#eb6d6d',
-        opacity: 0,
-        transform: 'scale(0)'
-      }))
+    trigger('routeAnimation', [
+      state('void', style({ width: '100%', height: 0 })),
+      state('*', style({ width: '100%' })),
+      transition('void => *', [
+        style({ transform: 'translateX(-100%)', opacity: 0 }),
+        animate('0.5s cubic-bezier(0.215, 0.610, 0.355, 1.000)')
+      ]),
+      transition('* => void',
+        animate(0, style({
+          transform: 'translateY(100%)',
+          opacity: 0
+        }))
+      )
     ])
-  ])
-]
+  ]
 })
 export class ClientListComponent implements OnInit, OnChanges {
 
@@ -65,7 +82,6 @@ export class ClientListComponent implements OnInit, OnChanges {
       console.log('changement variable client to delete');
       console.log(this.clientToDelete);
       this.deleteClient(this.clientToDelete);
-      this.clientToDelete = null;
     }
 
   }
