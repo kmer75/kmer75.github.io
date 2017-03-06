@@ -1,3 +1,5 @@
+<div [@routeAnimation]="show">
+
 <div class="row">
     <div class="col-xs-12 m-heading-1 border-green m-bordered">
         <h3>jQuery BlockUI</h3>
@@ -8,3 +10,4 @@
 </div>
 <app-client-list (event)="client = $event" [clientToDelete]="selectedClient"></app-client-list>
 <app-client-detail [clientDetail]="client" (eventDeletedClient)="assignDeletedClient($event)"></app-client-detail>
+</div>

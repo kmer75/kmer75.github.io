@@ -14,16 +14,16 @@ import { Client } from './../Client';
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css'],
-  host: { '[@routeAnimation]': 'true' },
   animations: [
     trigger('flyInOut', [
       state('in', style({ opacity: 1, transform: 'translateX(0)' })),
       transition('void => *', [
         style({
           opacity: 0,
-          transform: 'translateX(-100px)'
+          transform: 'translateY(-100%)',
+          'border-bottom' : '#555555 3px solid'
         }),
-        animate('0.5s 1s ease-in')
+        animate('1s ease-in')
       ]),
       transition('* => void', [
         animate('0.2s 200 ease-out', style({
@@ -32,20 +32,6 @@ import { Client } from './../Client';
           transform: 'scale(0)'
         }))
       ])
-    ]),
-    trigger('routeAnimation', [
-      state('void', style({ width: '100%', height: 0 })),
-      state('*', style({ width: '100%' })),
-      transition('void => *', [
-        style({ transform: 'translateX(-100%)', opacity: 0 }),
-        animate('0.5s cubic-bezier(0.215, 0.610, 0.355, 1.000)')
-      ]),
-      transition('* => void',
-        animate(0, style({
-          transform: 'translateY(100%)',
-          opacity: 0
-        }))
-      )
     ])
   ]
 })

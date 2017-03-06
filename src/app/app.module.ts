@@ -1,6 +1,6 @@
 import { ClientModule } from './client/client.module';
 import { RoutingModule } from './routing/routing.module';
-// import { FooterComponent } from './shared/footer/footer.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { PatronComponent } from './shared/patron/patron.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ApplicationRef } from '@angular/core';
@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent, PatronComponent
+    AppComponent, PatronComponent,FooterComponent
   ],
   imports: [
     BrowserModule,
