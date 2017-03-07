@@ -44,24 +44,9 @@ export class ClientDetailComponent implements OnInit {
   client: Client;
   identifiant: number;
 
-  getClient() {
-
-  }
-
   @Input() clientDetail: Client = null;
 
   ngOnInit() {
-    //   this.route.params
-    //   .switchMap((params : any) => {
-    //   var client = this.clientService.getClient(params['id']);
-    //   this.identifiant = params['id'];
-    //   console.log(client);
-    //   return client;
-    // })
-    // .subscribe(client => this.client = client as Client);
-
-    //   console.log(this.identifiant);
-
   }
 
   @Output() eventDeletedClient = new EventEmitter<Client>();
@@ -81,16 +66,6 @@ export class ClientDetailComponent implements OnInit {
         console.log(client)
       });
   }
-
-
-  // delete(hero: Hero): void {
-  //   this.heroService
-  //       .delete(hero.id)
-  //       .then(() => {
-  //         this.heroes = this.heroes.filter(h => h !== hero);
-  //         if (this.selectedHero === hero) { this.selectedHero = null; }
-  //       });
-  // }
 
 
 }

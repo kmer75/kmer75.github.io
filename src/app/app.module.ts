@@ -1,3 +1,4 @@
+
 import { ClientModule } from './client/client.module';
 import { RoutingModule } from './routing/routing.module';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -7,11 +8,12 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ApplicationRef } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+
 import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent, PatronComponent,FooterComponent
+    AppComponent, PatronComponent, FooterComponent
   ],
   imports: [
     BrowserModule,

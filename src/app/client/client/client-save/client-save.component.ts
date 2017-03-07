@@ -17,12 +17,23 @@ declare var jQuery: any;
 })
 export class ClientSaveComponent implements OnInit, AfterViewInit {
 
+  client: Client = {
+        id: 1, nom: '', prenom: '', description: '',
+        imgPath: '',
+        telephone: '', email: '', genre: '',
+        adresse: {
+    rue: "",
+    zipcode: "",
+    ville: "",
+    pays: "",
+    latitude: 47.22714149999999,
+    longitude: -1.6509673000000475
+  }
+      }
+
   public latitude: number;
   public longitude: number;
-  public rue: string;
-  public ville: string;
-  public zipcode: string;
-  public pays: string;
+
   public searchControl: FormControl;
   public zoom: number;
   autocomplete: any = null;
@@ -44,19 +55,6 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   }
 
-  client: Client = {
-        id: 1, nom: '', prenom: '', description: '',
-        imgPath: '',
-        telephone: '', email: '', genre: '',
-        adresse: {
-    rue: "",
-    zipcode: "",
-    ville: "",
-    pays: "",
-    latitude: 47.22714149999999,
-    longitude: -1.6509673000000475
-  }
-      }
 
   genres: string[] = ['male', 'female'];
   clientForm: FormGroup;
@@ -151,12 +149,15 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
         })
         .subscribe(client => {
           this.client = client as Client;
+          this.latitude = client.adresse.latitude;
+          this.longitude = client.adresse.longitude;
           this.buildForm()
         });
     }
 
     console.log(this.clientForm);
 
+    
 
   }
 
@@ -199,8 +200,6 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       const control = form.get(field);
 
       if (control && control.dirty && !control.valid) {
-        console.log('control =>');
-        console.log(control);
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
