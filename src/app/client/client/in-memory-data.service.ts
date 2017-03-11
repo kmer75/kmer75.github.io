@@ -34,7 +34,7 @@ export class InMemoryDataService implements InMemoryDbService {
   }
       },
       {
-        id: 3, nom: '', prenom: 'trunks', description: 'trunks du futur',
+        id: 3, nom: 'futur', prenom: 'trunks', description: 'trunks du futur',
         imgPath: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQLh3QE4k5u6oI3nPr9ly86IEVPap1wbG6K9UQdTumdXfQX2ee-hg',
         telephone: '0102030405', email: 'trunks@gmail.com', genre: 'male',
          adresse: {
@@ -47,7 +47,7 @@ export class InMemoryDataService implements InMemoryDbService {
   }
       },
       {
-        id: 4, nom: '', prenom: 'vegeta', description: 'vegeta le prince des saiyen',
+        id: 4, nom: 'prince sayen', prenom: 'vegeta', description: 'vegeta le prince des saiyen',
         imgPath: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcToboYwD93QvjWVylyhmnBHqcUXom4VhSbSA0LcF0xThL6LCMPH',
         telephone: '0102030405', email: 'vegeta@gmail.com', genre: 'male',
         adresse: {
@@ -60,7 +60,7 @@ export class InMemoryDataService implements InMemoryDbService {
   }
       },
       {
-        id: 5, nom: '', prenom: 'broly', description: 'broly le super saiyen legendaire',
+        id: 5, nom: 'sayen legendaire', prenom: 'broly', description: 'broly le super saiyen legendaire',
         imgPath: 'http://www.dragonweb.fr/sites/default/files/broly/brolyssj.png',
         telephone: '0102030405', email: 'broly@gmail.com', genre: 'male',
         adresse: {

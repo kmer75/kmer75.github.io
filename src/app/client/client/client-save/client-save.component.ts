@@ -1,3 +1,4 @@
+import { Animations } from './../../../shared/animation';
 import { Router } from '@angular/router';
 import { ClientService } from './../client.service';
 import { Client } from './../Client';
@@ -5,7 +6,11 @@ import { Adresse } from './../Adresse';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from "@angular/router";
-import { Component, NgModule, NgZone, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, NgModule, NgZone, OnInit, ViewChild, ElementRef, AfterViewInit,trigger,
+  state,
+  style,
+  transition,
+  animate } from '@angular/core';
 import { BrowserModule } from "@angular/platform-browser";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 declare var jQuery: any;
@@ -13,7 +18,9 @@ declare var jQuery: any;
 @Component({
   selector: 'app-client-save',
   templateUrl: './client-save.component.html',
-  styleUrls: ['./client-save.component.css']
+  styleUrls: ['./client-save.component.css'],
+  host: { '[@routeAnimation]': 'true' },
+  animations: Animations.page
 })
 export class ClientSaveComponent implements OnInit, AfterViewInit {
 

@@ -55,5 +55,4 @@ export class PatronComponent implements OnInit {
 
 
 
-
 }

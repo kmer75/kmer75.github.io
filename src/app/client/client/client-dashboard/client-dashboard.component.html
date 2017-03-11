@@ -20,11 +20,13 @@
                       <button class="btn blue uppercase bold" type="button">Search</button>
                     </span>
                     </div>
-                    <div>
-                        <div *ngFor="let client of clients | async" (click)="gotoDetail(client)">
-                            {{client.nom}} {{client.prenom}}
-                        </div>
-                    </div>
+                    <hr/>
+                    <table class="table table-hover">
+                        <tr class="m-heading-1 border-green clearfix" *ngFor="let client of clients | async" (click)="gotoDetail(client)">
+                            <td>{{client.nom}} {{client.prenom}}</td>
+                            <td><img width="60px" [src]="client.imgPath"/></td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="col-md-5">
                     <p class="search-desc clearfix"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur pellentesque auctor. Morbi lobortis,
