@@ -5,6 +5,7 @@ import { CLIENT_ROUTE } from './../client/client-route';
 import { ClientDetailComponent } from './../client/client/client-detail/client-detail.component';
 import { ClientEditComponent } from './../client/client/client-edit/client-edit.component';
 import { ClientSaveComponent } from './../client/client/client-save/client-save.component';
+import { ClientGeolocalisationComponent } from './../client/client/client-geolocalisation/client-geolocalisation.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: ClientDashboardComponent
+  },
+    {
+    path: 'geolocalisation',
+    component: ClientGeolocalisationComponent
   },
   {
     path: '',

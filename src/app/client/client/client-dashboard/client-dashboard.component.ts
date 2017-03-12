@@ -26,9 +26,6 @@ import 'rxjs/add/operator/switchMap';
   providers: [ClientSearchService],
   host: { '[@routeAnimation]': 'true' },
   animations: Animations.page
-  //import { routerTransition } from './../../../shared/router.animation';
-  //   animations: [routerTransition()],
-  // host: {'[@routerTransition]': ''}
 })
 
 
@@ -40,8 +37,12 @@ export class ClientDashboardComponent implements OnInit {
   string = 'mickael';
 
   title: string = 'My first angular2-google-maps project';
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  
+
+
+
+
+
 
   clients: Observable<Client[]>;
   private searchTerms = new Subject<string>();
@@ -82,3 +83,6 @@ export class ClientDashboardComponent implements OnInit {
   }
 
 }
+
+
+

@@ -12,6 +12,7 @@ import { ClientStartComponent } from './client/client-start/client-start.compone
 import { ClientSaveComponent } from './client/client-save/client-save.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { ClientGeolocalisationComponent } from './client/client-geolocalisation/client-geolocalisation.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
     ClientDashboardComponent,
     ClientListComponent,
     ClientDetailComponent,
-    ClientEditComponent, ClientStartComponent, ClientSaveComponent],
+    ClientEditComponent, ClientStartComponent, ClientSaveComponent, ClientGeolocalisationComponent],
 
   exports: [ClientComponent]
 })
