@@ -1,13 +1,16 @@
-<div class="col-md-6" *ngIf="clientDetail" [@flyInOut]>
-    <!-- BEGIN Portlet PORTLET-->
-    <div class="portlet light">
+<p>
+  client-detail-complete works!
+</p>
+
+<!-- BEGIN Portlet PORTLET-->
+    <div [@flyInOut] class="portlet light">
         <div class="portlet-title row">
             <div class="caption col-xs-12">
 
-                <span class="caption-subject bold font-grey-gallery uppercase col-xs-9">{{clientDetail?.prenom}} {{clientDetail?.nom}}</span>
+                <span class="caption-subject bold font-grey-gallery uppercase col-xs-9">{{client?.prenom}} {{client?.nom}}</span>
                 
-                <span class="col-xs-3">
-                    <button class="btn green" (click)="onDetail(clientDetail)">Detail</button>
+                <span class="col-xs-3 top">
+                <button class="btn green" (click)="goList()">Retour Liste client</button>
                 </span>
             </div>
 
@@ -16,7 +19,7 @@
 
             <div class="row">
                 <div class="col-sm-6">
-                    <img style="max-width:100%" src="{{clientDetail?.imgPath}}" />
+                    <img style="max-width:100%" src="{{client?.imgPath}}" />
                 </div>
 
                 <div class="col-sm-6">
@@ -31,7 +34,7 @@
                                     </div>
                                     <div style="padding-right: 10px" class="list-item-content">
                                         <h3>
-                                            {{clientDetail?.telephone}}
+                                            {{client?.telephone}}
                                         </h3>
                                     </div>
                                 </li>
@@ -41,7 +44,7 @@
                                     </div>
                                     <div style="padding-right: 10px" class="list-item-content">
                                         <h3>
-                                            {{clientDetail?.email}}
+                                            {{client?.email}}
                                         </h3>
                                     </div>
                                 </li>
@@ -51,7 +54,7 @@
                                     </div>
                                     <div style="padding-right: 10px" class="list-item-content">
                                         <h3>
-                                            {{clientDetail?.adresse?.rue}}, {{clientDetail?.adresse?.zipcode}}, {{clientDetail?.adresse?.ville}}
+                                            {{client?.adresse?.rue}}, {{client?.adresse?.zipcode}}, {{client?.adresse?.ville}}
                                         </h3>
                                     </div>
                                 </li>
@@ -74,15 +77,13 @@
             <div class="row">
 
                 <div class="col-xs-6">
-                    <button class="btn btn-primary btn-block" (click)="onEdit(clientDetail)">Edit</button>
+                    <button class="btn btn-primary btn-block" (click)="onEdit(client)">Edit</button>
                 </div>
-
                 <div class="col-xs-6">
-                    <button class="btn btn-danger btn-block" (click)="onDelete(clientDetail)">Supprimer</button>
+                    <button class="btn btn-danger btn-block" (click)="onDelete(client)">Supprimer</button>
                 </div>
             </div>
 
         </div>
     </div>
     <!-- END GRID PORTLET-->
-</div>

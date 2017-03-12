@@ -25,7 +25,7 @@ declare var jQuery: any;
 export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   client: Client = {
-        id: 1, nom: '', prenom: '', description: '',
+        id: null, nom: '', prenom: '', description: '',
         imgPath: '',
         telephone: '', email: '', genre: '',
         adresse: {

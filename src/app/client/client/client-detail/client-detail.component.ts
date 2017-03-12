@@ -57,6 +57,12 @@ export class ClientDetailComponent implements OnInit {
 
   }
 
+  onDetail(client: Client) {
+
+    this.router.navigate(['/client/detail', client.id]);
+
+  }
+
   onDelete(client: Client) {
     this.clientService.delete(client.id)
       .then(() => {

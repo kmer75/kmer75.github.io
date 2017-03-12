@@ -5,6 +5,7 @@ import { CLIENT_ROUTE } from './../client/client-route';
 import { ClientDetailComponent } from './../client/client/client-detail/client-detail.component';
 import { ClientEditComponent } from './../client/client/client-edit/client-edit.component';
 import { ClientSaveComponent } from './../client/client/client-save/client-save.component';
+import { ClientDetailCompleteComponent } from './../client/client/client-detail-complete/client-detail-complete.component';
 import { ClientGeolocalisationComponent } from './../client/client/client-geolocalisation/client-geolocalisation.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -41,6 +42,9 @@ const routes: Routes = [
 
   {
     path: 'client/edit/:id', component: ClientSaveComponent
+  },
+  {
+    path: 'client/detail/:id', component: ClientDetailCompleteComponent
   }
 ];
 

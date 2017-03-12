@@ -13,6 +13,7 @@ import { ClientSaveComponent } from './client/client-save/client-save.component'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ClientGeolocalisationComponent } from './client/client-geolocalisation/client-geolocalisation.component';
+import { ClientDetailCompleteComponent } from './client/client-detail-complete/client-detail-complete.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { ClientGeolocalisationComponent } from './client/client-geolocalisation/
     ClientDashboardComponent,
     ClientListComponent,
     ClientDetailComponent,
-    ClientEditComponent, ClientStartComponent, ClientSaveComponent, ClientGeolocalisationComponent],
+    ClientEditComponent, ClientStartComponent, ClientSaveComponent, ClientGeolocalisationComponent, ClientDetailCompleteComponent],
 
   exports: [ClientComponent]
 })
