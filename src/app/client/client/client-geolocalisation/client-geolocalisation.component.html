@@ -30,7 +30,7 @@
           (dragEnd)="markerDragEnd(m, $event)">
           
         <sebm-google-map-info-window>
-          <strong>InfoWindow content</strong>
+          <strong>InfoWindow content : {{m.nom}}</strong>
         </sebm-google-map-info-window>
         
       </sebm-google-map-marker>
@@ -43,6 +43,32 @@
       </sebm-google-map-circle>
 
     </sebm-google-map>
+
+    <hr/>
+
+    
+<sebm-google-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      [disableDefaultUI]="false"
+      [zoomControl]="false">
+    <marker-cluster [points]="points" ></marker-cluster>
+    </sebm-google-map>
+
+      <!--<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <input class="form-control" id="clientID" [(ngModel)]="clientID" name="name"/>
+    <button type="submit" class="btn btn-info">submit</button>
+    </form>
+    <p>
+      {{clientID}}
+    </p>-->
+
+    <a href="01">lien</a>
+    <input [(ngModel)]="clientID" class="form-control" id="clientID" type="text" name="clientID"/>
+    <p>
+      {{clientID}}
+    </p>
 
 
     </div>

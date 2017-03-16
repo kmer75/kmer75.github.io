@@ -1,3 +1,4 @@
+import { MarkerCluster } from './client/client-geolocalisation/marker.cluster';
 import { ClientService } from './client/client.service';
 import { InMemoryDataService } from './client/in-memory-data.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -15,11 +16,13 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ClientGeolocalisationComponent } from './client/client-geolocalisation/client-geolocalisation.component';
 import { ClientDetailCompleteComponent } from './client/client-detail-complete/client-detail-complete.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     ReactiveFormsModule,
+    FormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAbsHKzXuELRvYsyTzxpWtDmpe9zOyqQWU',
       libraries: ["places"]
@@ -28,6 +31,7 @@ import { ClientDetailCompleteComponent } from './client/client-detail-complete/c
   providers: [ClientService, InMemoryDataService],
 
   declarations: [ClientComponent,
+  MarkerCluster,
     ClientDashboardComponent,
     ClientListComponent,
     ClientDetailComponent,

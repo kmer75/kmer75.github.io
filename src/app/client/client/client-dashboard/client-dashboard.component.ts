@@ -1,3 +1,4 @@
+
 import { Animations } from './../../../shared/animation';
 import { ClientSearchService } from './client-search-service';
 import { Client } from './../client';
@@ -18,6 +19,8 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
+import {Http} from '@angular/http'
+
 @Component({
   moduleId: module.id,
   selector: 'app-client-dashboard',
@@ -30,6 +33,15 @@ import 'rxjs/add/operator/switchMap';
 
 
 export class ClientDashboardComponent implements OnInit {
+
+
+  lat:number = 51;
+  lng:number = 10;
+  zoom: number = 5;
+
+
+  
+
   state = "inactive";
   onClick(s) {
     this.state == "inactive" ? this.state = "active" : this.state = "inactive";
@@ -49,7 +61,8 @@ export class ClientDashboardComponent implements OnInit {
 
   constructor(
     private clientSearchService: ClientSearchService,
-    private router: Router) { }
+    private router: Router,
+    private http:Http) { }
 
   search(term: string): void {
     // Push a search term into the observable stream.
@@ -57,6 +70,7 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     //console.log(this.searchTerms.this.clientSearchService.search('san'));
     this.clients = this.searchTerms
       .debounceTime(300)        // wait for 300ms pause in events
