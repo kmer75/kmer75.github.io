@@ -16,47 +16,17 @@ elementRef: ElementRef;
   @Input() 
   points: any[]; 
 
-
-
   constructor(private gmapsApi: GoogleMapsAPIWrapper,elementRef: ElementRef) {
     this.elementRef = elementRef;
   }
 
    ngAfterViewInit(): void {
-        // console.log("Jqeuery here");
-        // jQuery(this.elementRef.nativeElement).ready(function () {
-        //     console.log('OnInit => ready function : oh le document est pret !!');
-        // });
-
-        
     }
 
   ngOnInit() {
 
     this.gmapsApi.getNativeMap().then(map => {
 
-		
-		let markerIcon = {
-			url: "assets/marker.png", // url
-			scaledSize: new google.maps.Size(35, 35)
-		  }
-		
-		
-      let style = {
-        url: "assets/cluster.png",
-        height: 40,
-        width: 40,
-        textColor: '#FFF', 
-        textSize: 11,  
-        backgroundPosition: "center center"
-      }; 
-
-		let options = {
-		  imagePath: "/assets/cluster",
-		  gridSize: 70,
-		  styles: [style, style, style]
-		};
-		
 		var infowindow = new google.maps.InfoWindow();
      var markers :any[] = [];
     var markerCluster : any;
@@ -72,39 +42,28 @@ elementRef: ElementRef;
           if (this.points.length > 0) {
             for (let point of this.points) {
               let marker = new google.maps.Marker({
-                position: new google.maps.LatLng(point.Latitude, point.Longitude),
+                position: new google.maps.LatLng(point.adresse.latitude, point.adresse.longitude),
                 //icon : markerIcon,
-                title: 'this is a title'
+                title: 'cliquer pour avoir le détail de '+point.prenom
               });
-               //evenement infowindow
 
-             google.maps.event.addListener(marker, 'click', (function (marker) {
-            return function () {
-
-                var html = '';
-
-                // Create a container for the infowindow content
-                html += '<div class="infowindow-content">';
-
+              marker.addListener('mouseover', function() {
                 
-                // Add a title
-                html += '<p >' + 'title' + '</p><br />';
-
-                // Add a link
-                html += '<p onclick="onClickInfo(3)">' + 'link' + '</p><br />';
-
-                // Add an image
-                html += '<p>' + 'image' + '</p>';
-
-                // Close the container
+                 var html = '';
+                html += '<div class="row">';
+                html += '<p class="col-xs-6">' + point.nom +' ' + point.prenom + '</p>';
+                html += '<img class="col-xs-6" style="width:100px" src="' + point.imgPath + '"/>';
                 html += '</div>';
 
                 infowindow.setContent(html);
                 infowindow.open(map, marker);
-            }
-        })(marker));
-
-             //fin infowindow
+              });
+              marker.addListener('mouseout', function() {
+                infowindow.close(map, marker);
+              });
+              marker.addListener('click', function() {
+                alert('id =>' +point.id + ' ' + 'detail => '+point.description);
+              });
               markers.push(marker);
             }
           } else {
@@ -116,8 +75,6 @@ elementRef: ElementRef;
 
           markerCluster = new MarkerClusterer(map, markers, 
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-          
-
           
         })
     });

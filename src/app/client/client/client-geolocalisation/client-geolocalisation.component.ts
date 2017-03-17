@@ -17,19 +17,8 @@ clientID: string = '0';
   constructor(elementRef: ElementRef,private clientService: ClientService, private router: Router) { this.elementRef = elementRef;}
 
   ngOnInit() {
-    
-    this.points = points;
+    //this.points = points;
     this.getClients();
-    jQuery(this.elementRef.nativeElement).ready(function () {
-            console.log('OnInit => ready function : oh le document est pret !!');
-            console.log(jQuery('#clientID').val());
-            
-        });
-
-        jQuery('#clientID').on("change", function() {
-        alert(jQuery(this).val()); 
-});
-             
   }
 
   onSubmit(form) {
@@ -49,7 +38,8 @@ clientID: string = '0';
   getClients(): void {
     this.clientService.getClients().then(data => {
       this.clients = data;
-      this.getMarkers(data)
+      this.getMarkers(data);
+      this.points = data;
     });
   }
 
