@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { ClientService } from './../client.service';
 import {
@@ -57,8 +58,13 @@ export class ClientListComponent implements OnInit, OnChanges {
     this.router.navigate(['/client/add']);
   }
 
-  getClients(): void {
-    this.clientService.getClients().then(data => this.clients = data);
+  getClients(): Observable<any> {
+    let response = this.clientService.getClients().share();
+    response.subscribe(
+           (data) => { this.clients= data },
+            (data) => { alert('error') }
+        );
+        return response;
   }
 
   @Input() clientToDelete: Client = null;
@@ -83,7 +89,11 @@ export class ClientListComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
-    this.getClients();
+    this.getClients().subscribe(
+            (success) => alert('success'),
+            (fail) => alert('fail'),
+            () => alert('complete')
+        );
   }
 
 }

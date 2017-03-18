@@ -65,12 +65,14 @@ export class ClientDetailComponent implements OnInit {
 
   onDelete(client: Client) {
     this.clientService.delete(client.id)
-      .then(() => {
+      .subscribe(() => {
         this.clientDetail = null;
         this.eventDeletedClient.emit(client);
         console.log('client ds la methode success du delete (then) :');
         console.log(client)
-      });
+      },
+      ()=>{alert('erreur lors de la suppression')}
+      );
   }
 
 

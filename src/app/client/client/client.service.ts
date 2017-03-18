@@ -1,6 +1,6 @@
 import { Client } from './client';
 import { Injectable, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
@@ -15,67 +15,53 @@ export class ClientService implements OnInit {
   headers = new Headers({ 'Content-Type': 'application/json' });
 
   getClientsSubscribe() {
-    return this.http.get("api/clients").map(data => data.json());
+    return this.http.get('https://gestionclient-cdadc.firebaseio.com/test.json').map((data:Response) => data.json());
   }
 
-  createSubscribe(client: Client) {
-    return this.http
-      .post(this.clientUrl, client, { headers: this.headers })
-      .map(data => data.json());
+  getData() {
+    
+    return this.http.get('https://gestionclient-cdadc.firebaseio.com/clients.json', {headers : this.headers} )
+    .map((data:Response) => {data.json().data});
   }
 
-  getClients(): Promise<Client[]> {
-    return this.http.get(this.clientUrl).toPromise().then(
-      function (response) {
-        console.log(response.json().data);
-        return response.json().data as Client[];
-      }
-    ).catch(this.handleError);
+  getClients() {
+    return this.http.get(this.clientUrl).
+    map((data:Response) => data.json().data);
   }
 
-  getClient(id: number): Promise<Client> {
-    return this.http.get("api/clients/" + id).toPromise().then(
-      function (response) {
-        console.log(response.json().data);
-        return response.json().data as Client;
-      }
-    ).catch(this.handleError);
+  getClient(id: number) {
+    return this.http.get("api/clients/" + id).
+    map((data:Response) => data.json().data);
   }
 
 
 
-  update(client: Client): Promise<Client> {
+  update(client: Client) {
     const url = `${this.clientUrl}/${client.id}`;
     return this.http
       .put(url, JSON.stringify(client), { headers: this.headers })
-      .toPromise()
-      .then(() => client)
-      .catch(this.handleError);
+      .subscribe(() => client);
+      
   }
 
-  create(client: Client): Promise<Client> {
+  create(client: Client) {
     return this.http
       .post(this.clientUrl, client, { headers: this.headers })
-      .toPromise()
-      .then(res => res.json().data)
-      .catch(this.handleError);
+      .subscribe(res => res.json().data);
   }
 
-
-  save(client: Client): Promise<Client> {
+  save(client: Client) {
     if (client.id) {
       return this.update(client);
     }
     return this.create(client);
   }
 
-  delete(id: number): Promise<void> {
+  delete(id: number) {
     console.log('id numero : ' + id);
     const url = `${this.clientUrl}/${id}`;
     return this.http.delete(url, { headers: this.headers })
-      .toPromise()
-      .then(() => { console.log('client numero ' + id + ' supprime'); return null; })
-      .catch(this.handleError);
+      .map(() => { console.log('client numero ' + id + ' supprime'); return null; });
   }
 
 
@@ -86,75 +72,7 @@ export class ClientService implements OnInit {
   }
 
   ngOnInit() {
-
   }
-
- 
 
 
 }
-
-
- /*
-{
-  getHeroes(): Promise<Hero[]> {
-    return this.http
-      .get(this.heroesUrl)
-      .toPromise()
-      .then(response => response.json().data as Hero[])
-      .catch(this.handleError);
-  }
-
-  getHero(id: number): Promise<Hero> {
-    return this.getHeroes()
-      .then(heroes => heroes.find(hero => hero.id === id));
-  }
-
-  save(hero: Hero): Promise<Hero> {
-    if (hero.id) {
-      return this.put(hero);
-    }
-    return this.post(hero);
-  }
-
-  delete(hero: Hero): Promise<Response> {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    let url = `${this.heroesUrl}/${hero.id}`;
-
-    return this.http
-      .delete(url, { headers: headers })
-      .toPromise()
-      .catch(this.handleError);
-  }
-
-  // Add new Hero
-  private post(hero: Hero): Promise<Hero> {
-    let headers = new Headers({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http
-      .post(this.heroesUrl, JSON.stringify(hero), { headers: headers })
-      .toPromise()
-      .then(res => res.json().data)
-      .catch(this.handleError);
-  }
-
-  // Update existing Hero
-  private put(hero: Hero): Promise<Hero> {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    let url = `${this.heroesUrl}/${hero.id}`;
-
-    return this.http
-      .put(url, JSON.stringify(hero), { headers: headers })
-      .toPromise()
-      .then(() => hero)
-      .catch(this.handleError);
-  }
-
-  }
-  */

@@ -31,33 +31,21 @@ export class PatronComponent implements OnInit {
         console.log('the end of the animation');
     }
 
-    ngOnInit(): void {
-        // console.log("Jqeuery here");
-        // jQuery(this.elementRef.nativeElement).find('button').on('click', function () {
-        //     alert('yes');
-        // });
-        // jQuery(this.elementRef.nativeElement).ready(function () {
-        //     console.log('OnInit => ready function : oh le document est pret !!');
-        // });
-        // let data = this.getData();
-        this.getData().subscribe(
-            (success) => alert('success'),
-            (fail) => alert('fail'),
-            () => alert('complete')
-        );
-        // this.getData();
+    data = [];
 
+    ngOnInit(): void {
+        this.getClients();
     }
 
-    getData(): Observable<any> {
-        let response = this.clientService.getClientsSubscribe().share();
-        response.subscribe(
-            (data) => { console.log('success') },
-            (data) => { console.log('error  =>' + data) },
-            () => { console.log('complete') }
+    getClients(): Observable<any> {
+    let response = this.clientService.getClients().share();
+    response.subscribe(
+           (data) => { this.data= data },
+            (data) => { alert('error') }
         );
         return response;
-    }
+  }
+
 
     ngAfterViewInit(): void {
         console.log('AfterViewInit : oh on est là !!');

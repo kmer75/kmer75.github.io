@@ -154,7 +154,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
           var client = this.clientService.getClient(params['id']);
           return client;
         })
-        .subscribe(client => {
+        .subscribe((client) => {
           this.client = client as Client;
           this.latitude = client.adresse.latitude;
           this.longitude = client.adresse.longitude;

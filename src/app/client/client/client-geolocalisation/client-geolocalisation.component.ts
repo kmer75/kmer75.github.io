@@ -37,7 +37,7 @@ clientID: string = '0';
 
   clients: Client[] = [];
   getClients(): void {
-    this.clientService.getClients().then(data => {
+    this.clientService.getClients().subscribe(data => {
       this.clients = data;
       this.getMarkers(data);
       this.points = data;

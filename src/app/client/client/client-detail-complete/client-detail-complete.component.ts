@@ -72,7 +72,7 @@ export class ClientDetailCompleteComponent implements OnInit {
 
   onDelete(client: Client) {
     this.clientService.delete(client.id)
-      .then(() => {
+      .subscribe(() => {
         this.client = null;
         this.router.navigate(['/client']);
       });
