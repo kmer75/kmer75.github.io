@@ -1,10 +1,12 @@
 import { ClientService } from './../client.service';
 import { Client } from './../client';
-import { Component, OnInit, Input, EventEmitter, Output, trigger,
+import {
+  Component, OnInit, Input, EventEmitter, Output, trigger,
   state,
   style,
   transition,
-  animate } from '@angular/core';
+  animate
+} from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import 'rxjs/add/operator/switchMap';
 import { Router } from "@angular/router";
@@ -14,24 +16,24 @@ import { Router } from "@angular/router";
   selector: 'app-client-detail',
   templateUrl: './client-detail.component.html',
   styleUrls: ['./client-detail.component.css'],
-   animations: [
-  trigger('flyInOut', [
-    state('in', style({opacity: 1, transform: 'translateX(0)'})),
-    transition('void => *', [
-      style({
-        opacity: 0,
-        transform: 'translateX(-100%)'
-      }),
-      animate('0.2s ease-in')
-    ]),
-    transition('* => void', [
-      animate('0.2s 10 ease-out', style({
-        opacity: 0,
-        transform: 'translateY(100%)'
-      }))
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ opacity: 1, transform: 'translateX(0)' })),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('0.2s ease-in')
+      ]),
+      transition('* => void', [
+        animate('0.2s 10 ease-out', style({
+          opacity: 0,
+          transform: 'translateY(100%)'
+        }))
+      ])
     ])
-  ])
-]
+  ]
 })
 export class ClientDetailComponent implements OnInit {
 
@@ -58,9 +60,7 @@ export class ClientDetailComponent implements OnInit {
   }
 
   onDetail(client: Client) {
-
     this.router.navigate(['/client/detail', client.id]);
-
   }
 
   onDelete(client: Client) {

@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Animations } from './../animation';
 import { ClientService } from './../../client/client/client.service';
 import { Client } from './../../client/client/client';
@@ -11,8 +12,8 @@ declare var jQuery: any;
     selector: 'app-patron',
     templateUrl: './patron.component.html',
     styleUrls: ['./patron.component.css'],
-  host: { '[@routeAnimation]': 'true' },
-  animations: Animations.page
+    host: { '[@routeAnimation]': 'true' },
+    animations: Animations.page
 })
 export class PatronComponent implements OnInit {
     title = "Patron Component";
@@ -31,25 +32,36 @@ export class PatronComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log("Jqeuery here");
-        jQuery(this.elementRef.nativeElement).find('button').on('click', function () {
-            alert('yes');
-        });
-        jQuery(this.elementRef.nativeElement).ready(function () {
-            console.log('OnInit => ready function : oh le document est pret !!');
-        });
-
+        // console.log("Jqeuery here");
+        // jQuery(this.elementRef.nativeElement).find('button').on('click', function () {
+        //     alert('yes');
+        // });
+        // jQuery(this.elementRef.nativeElement).ready(function () {
+        //     console.log('OnInit => ready function : oh le document est pret !!');
+        // });
+        // let data = this.getData();
+        this.getData().subscribe(
+            (success) => alert('success'),
+            (fail) => alert('fail'),
+            () => alert('complete')
+        );
+        // this.getData();
 
     }
 
-    getData(): void {
-        this.clientService.getClientsSubscribe().subscribe((data) => console.log(data));
+    getData(): Observable<any> {
+        let response = this.clientService.getClientsSubscribe().share();
+        response.subscribe(
+            (data) => { console.log('success') },
+            (data) => { console.log('error  =>' + data) },
+            () => { console.log('complete') }
+        );
+        return response;
     }
 
     ngAfterViewInit(): void {
         console.log('AfterViewInit : oh on est là !!');
         console.log(jQuery('#test'));
-        this.getData();
     }
 
 

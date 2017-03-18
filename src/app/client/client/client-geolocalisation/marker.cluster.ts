@@ -1,4 +1,5 @@
-import { Directive, OnDestroy, OnInit,AfterViewInit, Input,ElementRef } from '@angular/core';
+import { Client } from './../client';
+import { Directive, OnDestroy, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-maps-types';
 import { Observable } from 'rxjs';
@@ -12,57 +13,71 @@ declare var jQuery: any;
   selector: 'marker-cluster'
 })
 export class MarkerCluster implements OnInit {
-elementRef: ElementRef;
-  @Input() 
-  points: any[]; 
+  @Input()
+  points: any[];
 
-  constructor(private gmapsApi: GoogleMapsAPIWrapper,elementRef: ElementRef) {
-    this.elementRef = elementRef;
+
+
+  @Output()
+  eventDetailClientMap = new EventEmitter<Client>();
+
+  onClickMapMarker(client) {
+    this.eventDetailClientMap.emit(client);
   }
 
-   ngAfterViewInit(): void {
-    }
+ test : string = 'test';
+
+  constructor(private gmapsApi: GoogleMapsAPIWrapper) {
+  }
+
+  ngAfterViewInit(): void {
+  }
 
   ngOnInit() {
 
     this.gmapsApi.getNativeMap().then(map => {
 
-		var infowindow = new google.maps.InfoWindow();
-     var markers :any[] = [];
-    var markerCluster : any;
+      var test = this.test;
+
+      let infowindow = new google.maps.InfoWindow();
+      var markers: any[] = [];
+      var markerCluster: any;
+
+      
 
       Observable
         .interval(500)
         .skipWhile((s) => this.points == null || this.points.length <= 0)
         .take(1)
-        .subscribe(() => {if (markerCluster) {
-          markerCluster.clearMarkers();
-          markers = [];
-        }
+        .subscribe(() => {
+          if (markerCluster) {
+            markerCluster.clearMarkers();
+            markers = [];
+          }
           if (this.points.length > 0) {
             for (let point of this.points) {
               let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(point.adresse.latitude, point.adresse.longitude),
                 //icon : markerIcon,
-                title: 'cliquer pour avoir le détail de '+point.prenom
+                title: 'cliquer pour avoir le détail de ' + point.prenom
               });
-
-              marker.addListener('mouseover', function() {
-                
-                 var html = '';
+              
+              marker.addListener('mouseover', function () {
+ 
+                var html = '';
                 html += '<div class="row">';
-                html += '<p class="col-xs-6">' + point.nom +' ' + point.prenom + '</p>';
+                html += '<p class="col-xs-6">' + point.nom + ' ' + point.prenom + '</p>';
                 html += '<img class="col-xs-6" style="width:100px" src="' + point.imgPath + '"/>';
                 html += '</div>';
 
                 infowindow.setContent(html);
                 infowindow.open(map, marker);
               });
-              marker.addListener('mouseout', function() {
+              marker.addListener('mouseout', function () {
                 infowindow.close(map, marker);
               });
-              marker.addListener('click', function() {
-                alert('id =>' +point.id + ' ' + 'detail => '+point.description);
+              marker.addListener('click', function () {
+                alert('id =>' + point.id + ' ' + 'detail => ' + point.description);
               });
               markers.push(marker);
             }
@@ -73,9 +88,9 @@ elementRef: ElementRef;
             }
           }
 
-          markerCluster = new MarkerClusterer(map, markers, 
-          {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-          
+          markerCluster = new MarkerClusterer(map, markers,
+            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+
         })
     });
   }

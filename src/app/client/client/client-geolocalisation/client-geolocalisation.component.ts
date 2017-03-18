@@ -32,6 +32,7 @@ clientID: string = '0';
     }
   }
 
+
   points: any[] = [];
 
   clients: Client[] = [];
