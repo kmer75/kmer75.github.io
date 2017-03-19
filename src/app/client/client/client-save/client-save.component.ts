@@ -284,6 +284,13 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     }
   };
 
+  getRue() : string {
+    if(this.autocomplete && this.autocomplete.getPlace() && this.autocomplete.getPlace().address_components) {
+    return this.autocomplete.getPlace().address_components[0].long_name + ' ' + this.autocomplete.getPlace().address_components[1].long_name;
+            }
+            return '';
+  }
+
 
   //methode google map pour recuperer different champs de l'adresse
   fillInAddress(place) {
@@ -300,6 +307,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     console.log(zipcode);
     var lat = place.geometry.location.lat();
     var lng = place.geometry.location.lng();
+
 
     var adresse = {
       rue : num + ' ' + rue,
@@ -336,6 +344,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     //         jQuery('#lng').val(lng);
     //     });
   }
+
 
   //methode google map pour set le marker sur la map
   private setCurrentPosition() {

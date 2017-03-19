@@ -88,8 +88,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="rue" class="form-control" formControlName="rue" [value]="autocomplete ? autocomplete.getPlace()?.address_components[0].long_name 
-                                 + ' ' + autocomplete.getPlace()?.address_components[1].long_name : ''">
+                                        <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="rue" class="form-control" formControlName="rue" 
+                                        [value]="getRue()">
                                             <label for="rue">rue</label>
                                     </div>
                                 </div>
@@ -105,13 +105,15 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="ville" class="form-control" formControlName="ville" [value]="autocomplete ? autocomplete.getPlace()?.address_components[2].long_name : ''">
+                                        <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="ville" class="form-control" formControlName="ville" 
+                                        [value]="autocomplete ? autocomplete.getPlace()?.address_components[2].long_name : ''">
                                         <label for="ville">ville</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                        <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="pays" class="form-control" formControlName="pays" [value]="autocomplete ? autocomplete.getPlace()?.address_components[5].long_name : ''">
+                                        <input [ngClass]="{'edited':isEdit}" readonly="" type="text" id="pays" class="form-control" formControlName="pays"
+                                         [value]="autocomplete ? autocomplete.getPlace()?.address_components[5].long_name : ''">
                                         <label for="pays">pays</label>
                                     </div>
                                 </div>

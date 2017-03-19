@@ -19,14 +19,18 @@ export class ClientService implements OnInit {
   }
 
   getData() {
-    
     return this.http.get('https://gestionclient-cdadc.firebaseio.com/clients.json', {headers : this.headers} )
-    .map((data:Response) => {data.json().data});
+  }
+
+  
+  sendData(client: Client) {
+    const body = JSON.stringify(client);
+    return this.http.post('https://gestionclient-cdadc.firebaseio.com/clients.json', body, {headers : this.headers} )
   }
 
   getClients() {
-    return this.http.get(this.clientUrl).
-    map((data:Response) => data.json().data);
+    return this.http.get(this.clientUrl)
+    .map((data:Response) => data.json().data);
   }
 
   getClient(id: number) {

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Animations } from './../animation';
 import { ClientService } from './../../client/client/client.service';
 import { Client } from './../../client/client/client';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import 'rxjs/Rx';
 declare var jQuery: any;
@@ -33,17 +33,31 @@ export class PatronComponent implements OnInit {
 
     data = [];
 
+    client : Client = {
+        "id": 1, "nom": "san", "prenom": "gohan", "description": "gohan ado",
+        "imgPath": "http://img11.deviantart.net/b16f/i/2011/330/6/7/ssj2_gohan_preview_by_2d75-d4hfd5n.jpg",
+        "telephone": "0102030405", "email": "gohan@gmail.com", "genre": "male",
+        "adresse": {
+    "rue": "24 Rue de la Johardière",
+    "zipcode": "44800",
+    "ville": "Saint-Herblain",
+    "pays": "France",
+    "latitude": 47.22714149999999,
+    "longitude": -1.6509673000000475
+  }
+      };
+
+
     ngOnInit(): void {
         this.getClients();
+        this.clientService.sendData(this.client).subscribe();
     }
 
-    getClients(): Observable<any> {
-    let response = this.clientService.getClients().share();
-    response.subscribe(
-           (data) => { this.data= data },
-            (data) => { alert('error') }
+    getClients(){
+    this.clientService.getData().subscribe(
+           (data:Response) => console.log(data) ,
+            (data) => { alert('error'); console.log(data) }
         );
-        return response;
   }
 
 
