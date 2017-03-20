@@ -6,11 +6,13 @@ import { Adresse } from './../Adresse';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from "@angular/router";
-import { Component, NgModule, NgZone, OnInit, ViewChild, ElementRef, AfterViewInit,trigger,
+import {
+  Component, NgModule, NgZone, OnInit, ViewChild, ElementRef, AfterViewInit, trigger,
   state,
   style,
   transition,
-  animate } from '@angular/core';
+  animate
+} from '@angular/core';
 import { BrowserModule } from "@angular/platform-browser";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 declare var jQuery: any;
@@ -25,18 +27,18 @@ declare var jQuery: any;
 export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   client: Client = {
-        id: null, nom: '', prenom: '', description: '',
-        imgPath: '',
-        telephone: '', email: '', genre: '',
-        adresse: {
-    rue: "",
-    zipcode: "",
-    ville: "",
-    pays: "",
-    latitude: 47.22714149999999,
-    longitude: -1.6509673000000475
+    id: null, nom: '', prenom: '', description: '',
+    imgPath: '',
+    telephone: '', email: '', genre: '',
+    adresse: {
+      rue: "",
+      zipcode: "",
+      ville: "",
+      pays: "",
+      latitude: 47.22714149999999,
+      longitude: -1.6509673000000475
+    }
   }
-      }
 
   public latitude: number;
   public longitude: number;
@@ -67,31 +69,42 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   clientForm: FormGroup;
   regexTel = "^[0-9]{10}$";
   regexEmail = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+
+    changeState() {
+    this.state = !this.state;
+  }
+
+  state: boolean = false;
+
   onCancel() {
     this.location.back();
   }
   onSubmit() {
-    if(!this.clientForm.valid) {
+    this.state = true;
+    if (!this.clientForm.valid) {
       alert("formulaire non valide !");
+      this.changeState();
       return;
     }
     var clientSaved: Client = this.clientForm.value as Client;
-    console.log(this.clientForm);
-    console.log(clientSaved);
-    console.log("id => " + clientSaved.id);
     this.clientService.save(clientSaved);
-    this.router.navigate(['/client']);
+    var that = this;
+     setTimeout(function () {
+          that.changeState();
+          that.router.navigate(['/client']);
+        }, 2000);
+    // this.router.navigate(['/client']);
   }
 
   ngOnInit() {
 
     jQuery(this.elementRef.nativeElement).find('#clickJson').on('click', function () {
 
-            if (jQuery('#json').is(":visible")) {
-                    jQuery('#json').slideUp(300);
-                } else {
-                    jQuery('#json').slideDown(300);
-                }
+      if (jQuery('#json').is(":visible")) {
+        jQuery('#json').slideUp(300);
+      } else {
+        jQuery('#json').slideDown(300);
+      }
     });
 
     if (this.router.url.indexOf('edit') >= 0) {
@@ -164,13 +177,13 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
     console.log(this.clientForm);
 
-    
+
 
   }
 
   buildForm() {
     this.clientForm = this.formBuilder.group({
-      'id' : [this.client.id],
+      'id': [this.client.id],
       'nom': [this.client.nom, [Validators.required, Validators.minLength(2)]],
       'prenom': [this.client.prenom, [Validators.required, Validators.minLength(2)]],
       'email': [this.client.email, [Validators.required, Validators.pattern(this.regexEmail)]],
@@ -178,14 +191,14 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       'description': [this.client.description, [Validators.required]],
       'telephone': [this.client.telephone, [Validators.required, Validators.pattern(this.regexTel)]],
       'imgPath': [this.client.imgPath, [Validators.required]],
-      'autocomplete' : [''],
+      'autocomplete': [''],
       'adresse': this.formBuilder.group({
-      'rue': [this.client.adresse.rue, [Validators.required]],
-      'zipcode': [this.client.adresse.zipcode, [Validators.required]],
-      'ville': [this.client.adresse.ville, [Validators.required]],
-      'pays': [this.client.adresse.pays, [Validators.required]],
-      'latitude': [this.client.adresse.latitude],
-      'longitude': [this.client.adresse.longitude]
+        'rue': [this.client.adresse.rue, [Validators.required]],
+        'zipcode': [this.client.adresse.zipcode, [Validators.required]],
+        'ville': [this.client.adresse.ville, [Validators.required]],
+        'pays': [this.client.adresse.pays, [Validators.required]],
+        'latitude': [this.client.adresse.latitude],
+        'longitude': [this.client.adresse.longitude]
       }),
 
     });
@@ -284,11 +297,11 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     }
   };
 
-  getRue() : string {
-    if(this.autocomplete && this.autocomplete.getPlace() && this.autocomplete.getPlace().address_components) {
-    return this.autocomplete.getPlace().address_components[0].long_name + ' ' + this.autocomplete.getPlace().address_components[1].long_name;
-            }
-            return '';
+  getRue(): string {
+    if (this.autocomplete && this.autocomplete.getPlace() && this.autocomplete.getPlace().address_components) {
+      return this.autocomplete.getPlace().address_components[0].long_name + ' ' + this.autocomplete.getPlace().address_components[1].long_name;
+    }
+    return '';
   }
 
 
@@ -310,12 +323,12 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
 
     var adresse = {
-      rue : num + ' ' + rue,
-      ville : ville,
-      zipcode : zipcode,
-      pays : pays,
-      latitude : lat,
-      longitude : lng
+      rue: num + ' ' + rue,
+      ville: ville,
+      zipcode: zipcode,
+      pays: pays,
+      latitude: lat,
+      longitude: lng
     }
     // this.rue = rue;
     // this.ville = ville;
@@ -325,8 +338,8 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     // this.longitude = lng;
 
     this.clientForm.patchValue({
-    adresse: adresse
-});
+      adresse: adresse
+    });
 
     // this.clientForm.value.rue = rue;
     // this.clientForm.value.ville = ville;

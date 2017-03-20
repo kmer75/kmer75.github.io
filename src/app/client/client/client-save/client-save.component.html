@@ -146,8 +146,9 @@
 
                     </div>
                     <div class="form-actions noborder">
-                        <button type="button" [disabled]="!clientForm.valid" type="submit" class="btn blue">Submit</button>
+                        <button type="button" [disabled]="!clientForm.valid || state" type="submit" class="btn blue">Submit</button>
                         <button type="button" class="btn default" (click)="onCancel()">Cancel</button>
+                        <div *ngIf="state" style="display: inline-block; vertical-align: middle; margin-left: 80px;" class="loader"></div>
                     </div>
                 </form>
             </div>

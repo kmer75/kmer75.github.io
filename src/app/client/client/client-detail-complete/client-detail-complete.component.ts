@@ -22,7 +22,7 @@ import { ActivatedRoute } from "@angular/router";
           transform: 'translateY(-100%)',
           'border-bottom' : '#555555 3px solid'
         }),
-        animate('1s ease-in')
+        animate('0.5s ease-in')
       ]),
       transition('* => void', [
         animate('0.2s 200 ease-out', style({

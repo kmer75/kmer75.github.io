@@ -22,9 +22,9 @@ import { Client } from './../Client';
         style({
           opacity: 0,
           transform: 'translateY(-100%)',
-          'border-bottom' : '#555555 3px solid'
+          'border-bottom': '#555555 3px solid'
         }),
-        animate('1s ease-in')
+        animate('0.5s ease-in')
       ]),
       transition('* => void', [
         animate('0.2s 200 ease-out', style({
@@ -60,11 +60,11 @@ export class ClientListComponent implements OnInit, OnChanges {
 
   getClients(): Observable<any> {
     let response = this.clientService.getClients().share();
-    response.subscribe(
-           (data) => { this.clients= data },
-            (data) => { alert('error') }
-        );
-        return response;
+    response.delay(500).subscribe(
+      (data) => { this.clients = data },
+      (data) => { alert('error') }
+    );
+    return response;
   }
 
   @Input() clientToDelete: Client = null;
@@ -86,14 +86,25 @@ export class ClientListComponent implements OnInit, OnChanges {
 
   }
 
+  changeState() {
+    this.state = !this.state;
+  }
 
+  state: boolean = false;
 
   ngOnInit() {
+    this.changeState();
+    console.log('state => ' + this.state);
+    var that = this;
     this.getClients().subscribe(
-            (success) => alert('success'),
-            (fail) => alert('fail'),
-            () => alert('complete')
-        );
+      (success) => {
+        setTimeout(function () {
+          that.changeState();
+          console.log('state => ' + this.state)
+        }, 500);
+      },
+      (fail) => alert('fail')
+    );
   }
 
 }
