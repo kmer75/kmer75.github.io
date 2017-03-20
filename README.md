@@ -1,3 +1,13 @@
+# Projet Angular 2 : Gestion de clients
+
+Ceci est une application complete en Angular 2. J'ai pu utiliser toutes les fonctionnalités impérative qu'il faut connaître sur Angular 2.
+Suite à mon apprentissage via le site officiel https://angular.io/docs/ts/latest/tutorial/ et un tutoriel que j'ai suivi : https://www.udemy.com/the-complete-guide-to-angular-2/ j'ai pu me forger de solides bases.
+
+# Environnement technique
+TypeScript, Angular2, angular-in-memory-web-api (permet de simuler un serveur REST), GoogleMap, Jquery, HTML5, CSS3, Bootstrap, intégration thème interface graphique
+
+
+
 # TutoAngular
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.30.
