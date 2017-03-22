@@ -77,7 +77,7 @@
                                 <div class="form-group form-md-line-input form-md-floating-label edited" [ngClass]="{'has-error': formErrors.adresse, 'has-success': !formErrors.adresse}">
                                     <input [ngClass]="{'edited':isEdit}" type="text" id="adresse" class="form-control" formControlName="autocomplete" autocorrect="off"
                                         autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
-                                        <label for="adresse">adresse</label>
+                                        
                                         <span *ngIf="formErrors.adresse" class="help-block">{{ formErrors.autocomplete }}</span>
                                         <span *ngIf="clientForm.controls.autocomplete.pristine" class="help-block">{{pristineMessages.autocomplete}}</span>
                                 </div>

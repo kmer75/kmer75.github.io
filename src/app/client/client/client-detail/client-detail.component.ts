@@ -1,3 +1,6 @@
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { ClientSearchService } from './../client-search-service';
 import { ClientService } from './../client.service';
 import { Client } from './../client';
 import {
@@ -38,6 +41,7 @@ import { Router } from "@angular/router";
 export class ClientDetailComponent implements OnInit {
 
   constructor(private clientService: ClientService,
+  private clientSearchService: ClientSearchService,
     private route: ActivatedRoute,
     private router: Router) { }
   lat: number = 51.678418;
@@ -49,6 +53,19 @@ export class ClientDetailComponent implements OnInit {
   @Input() clientDetail: Client = null;
 
   ngOnInit() {
+    this.clients = this.searchTerms
+      .debounceTime(300)        // wait for 300ms pause in events
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time
+        // return the http search observable
+        ? this.clientSearchService.search(term)
+        // or the observable of empty clientes if no search term
+        : Observable.of<Client[]>([]))
+      .catch(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return Observable.of<Client[]>([]);
+      });
   }
 
   @Output() eventDeletedClient = new EventEmitter<Client>();
@@ -73,6 +90,20 @@ export class ClientDetailComponent implements OnInit {
       },
       ()=>{alert('erreur lors de la suppression')}
       );
+  }
+
+term : string;
+clients: Observable<Client[]>;
+  private searchTerms = new Subject<string>();
+  search(term: string): void {
+    // Push a search term into the observable stream.
+    this.searchTerms.next(term);
+  }
+
+  assignClientDetail(client) {
+    this.clientDetail = client;
+    this.term = "";
+    this.clients = null;
   }
 
 

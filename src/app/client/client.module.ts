@@ -1,3 +1,4 @@
+import { ClientSearchService } from './client/client-search-service';
 import { MarkerCluster } from './client/client-geolocalisation/marker.cluster';
 import { ClientService } from './client/client.service';
 import { InMemoryDataService } from './client/in-memory-data.service';
@@ -28,7 +29,7 @@ import { ClientDetailCompleteComponent } from './client/client-detail-complete/c
       libraries: ["places"]
     })
   ],
-  providers: [ClientService, InMemoryDataService],
+  providers: [ClientService, ClientSearchService, InMemoryDataService],
 
   declarations: [ClientComponent,
   MarkerCluster,

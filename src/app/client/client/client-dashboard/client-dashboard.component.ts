@@ -1,6 +1,5 @@
-
+import { ClientSearchService } from './../client-search-service';
 import { Animations } from './../../../shared/animation';
-import { ClientSearchService } from './client-search-service';
 import { Client } from './../client';
 import {
   Component, OnInit, OnChanges, trigger,
@@ -26,7 +25,6 @@ import {Http} from '@angular/http'
   selector: 'app-client-dashboard',
   templateUrl: './client-dashboard.component.html',
   styleUrls: ['./client-dashboard.component.css'],
-  providers: [ClientSearchService],
   host: { '[@routeAnimation]': 'true' },
   animations: Animations.page
 })

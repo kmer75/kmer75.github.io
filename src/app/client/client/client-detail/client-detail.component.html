@@ -1,6 +1,33 @@
-<div class="col-md-6" *ngIf="clientDetail" [@flyInOut]>
+
+
+
+<div class="col-md-6">
+     <div class="search-page search-content-1">
+        <div class="search-bar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+ {{term}}
+                        <input [(ngModel)]="term" id="search-box" (keyup)="search(term)" type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                      <button class="btn blue uppercase bold" type="button">Search</button>
+                    </span>
+                    </div>
+                    <hr/>
+                    <table class="table table-hover">
+                        <tr class="m-heading-1 border-green clearfix" *ngFor="let client of clients | async" (click)="assignClientDetail(client)">
+                            <td>{{client.nom}} {{client.prenom}}</td>
+                            <td><img width="60px" [src]="client.imgPath"/></td>
+                        </tr>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+   
     <!-- BEGIN Portlet PORTLET-->
-    <div class="portlet light">
+    <div class="portlet light"  *ngIf="clientDetail" [@flyInOut]>
         <div class="portlet-title row">
             <div class="caption col-xs-12">
 
