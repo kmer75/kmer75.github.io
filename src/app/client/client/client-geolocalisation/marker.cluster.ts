@@ -77,7 +77,7 @@ export class MarkerCluster implements OnInit {
                 infowindow.close(map, marker);
               });
               marker.addListener('click', function () {
-                alert('id =>' + point.id + ' ' + 'detail => ' + point.description);
+                alert('vous serez redirigé vers le détail de '+point.prenom + ' ' + point.nom);
                 //location.href = ''+window.location.host + '/client/detail/'+point.id;
                 location.href = '/client/detail/'+point.id;
               });
