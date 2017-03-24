@@ -13,25 +13,14 @@ declare var jQuery: any;
 })
 export class ClientGeolocalisationComponent implements OnInit {
 elementRef: ElementRef;
-clientID: string = '0';
-  constructor(elementRef: ElementRef,private clientService: ClientService, private router: Router) { this.elementRef = elementRef;}
+  constructor(elementRef: ElementRef,
+  private clientService: ClientService,
+   private router: Router) { this.elementRef = elementRef;}
 
   ngOnInit() {
     //this.points = points;
     this.getClients();
   }
-
-  onSubmit(form) {
-    console.log(form);
-  }
-
-  
-  ngOnChanges(changes) {
-    if (changes.clientID) {
-      console.log('changement clientID : '+this.clientID);
-    }
-  }
-
 
   points: any[] = [];
 
@@ -48,8 +37,9 @@ clientID: string = '0';
   zoom: number = 8;
 
   // initial center position for the map
-  lat: number = 51.673858;
-  lng: number = 7.815982;
+  lat: number = 48.8665906;
+  lng: number = 2.317465200000015;
+
 
   clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
@@ -74,12 +64,16 @@ clientID: string = '0';
         lng: client.adresse.longitude,
         label: client.prenom[0],
         draggable: false,
-        nom: client.nom + ' ' + client.prenom
+        client : client
       });
     });
   }
 
   markers: marker[] = [];
+
+  goToDetail(id:number) {
+    this.router.navigate(['/client/detail', id]);
+  }
 
 }
 
@@ -91,5 +85,5 @@ interface marker {
   lng: number;
   label?: string;
   draggable: boolean;
-  nom: string;
+  client : Client
 }

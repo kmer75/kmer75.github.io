@@ -53,19 +53,7 @@ export class ClientDetailComponent implements OnInit {
   @Input() clientDetail: Client = null;
 
   ngOnInit() {
-    this.clients = this.searchTerms
-      .debounceTime(300)        // wait for 300ms pause in events
-      .distinctUntilChanged()   // ignore if next search term is same as previous
-      .switchMap(term => term   // switch to new observable each time
-        // return the http search observable
-        ? this.clientSearchService.search(term)
-        // or the observable of empty clientes if no search term
-        : Observable.of<Client[]>([]))
-      .catch(error => {
-        // TODO: real error handling
-        console.log(`Error in component ... ${error}`);
-        return Observable.of<Client[]>([]);
-      });
+    this.gotoDetail(this.clientDetail);
   }
 
   @Output() eventDeletedClient = new EventEmitter<Client>();
@@ -100,11 +88,27 @@ clients: Observable<Client[]>;
     this.searchTerms.next(term);
   }
 
-  assignClientDetail(client) {
+  gotoDetail(client: Client): void {
+    // let link = ['/client/edit', client.id];
+    // this.router.navigate(link);
     this.clientDetail = client;
+    console.log(client);
     this.term = "";
-    this.clients = null;
+    this.clients = this.searchTerms
+      .debounceTime(300)        // wait for 300ms pause in events
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time
+        // return the http search observable
+        ? this.clientSearchService.search(this.term)
+        // or the observable of empty clientes if no search term
+        : Observable.of<Client[]>([]))
+      .catch(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return Observable.of<Client[]>([]);
+      });
   }
+
 
 
 }

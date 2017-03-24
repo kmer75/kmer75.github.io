@@ -7,58 +7,47 @@
         <span class="caption-subject bold font-grey-gallery uppercase"> trouver les clients par la géolocalisation </span>
 
       </div>
-   
+
 
     </div>
     <div class="portlet-body">
-      
-<sebm-google-map 
-      [latitude]="lat"
-      [longitude]="lng"
-      [zoom]="zoom"
-      [disableDefaultUI]="false"
-      [zoomControl]="false"
-      (mapClick)="mapClicked($event)">
-    
-      <sebm-google-map-marker 
-          *ngFor="let m of markers; let i = index"
-          (markerClick)="clickedMarker(m.label, i)"
-          [latitude]="m.lat"
-          [longitude]="m.lng"
-          [label]="m.label"
-          [markerDraggable]="m.draggable"
-          (dragEnd)="markerDragEnd(m, $event)">
-          
-        <sebm-google-map-info-window >
-          <strong>InfoWindow content : {{m.nom}}</strong>
-        </sebm-google-map-info-window>
-        
-      </sebm-google-map-marker>
-      
-      <sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng" 
-          [radius]="5000"
-          [fillColor]="'red'"
-          [circleDraggable]="true"
-          [editable]="true">
-      </sebm-google-map-circle>
 
-    </sebm-google-map>
+            <div class="m-heading-1 border-green m-bordered">
+        <p> Google Map pour Angular 2 : <a href="https://angular-maps.com/">https://angular-maps.com/</a></p>
 
-    <hr/>
+      </div>
 
-    
-<sebm-google-map
-      [latitude]="lat"
-      [longitude]="lng"
-      [zoom]="zoom"
-      [disableDefaultUI]="false"
-      [zoomControl]="false">
-    <marker-cluster [points]="points" ></marker-cluster>
-    </sebm-google-map>
+      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
+
+        <sebm-google-map-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat"
+          [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)">
+
+          <sebm-google-map-info-window>
+            <img [src]="m.client.imgPath" style="max-height: 75px" />
+            <strong>{{m.client.prenom}} {{m.client.nom}} : <a (click)="goToDetail(m.client.id)">voir détail</a></strong>
+          </sebm-google-map-info-window>
+
+        </sebm-google-map-marker>
+
+      </sebm-google-map>
+
+      <hr/>
+
+      <div class="m-heading-1 border-green m-bordered">
+        <p> La version marker cluster </p>
+        <p> Pour faire le marker cluster, nous nous trouvons dans le contexte de la librairie de Google et non plus d'Angular.
+          Du coup les évènements Angular ne sont plus accessibles. Par conséquent nous ne pouvons accéder aux routers afin de changer
+          de page </p>
+          <p> Nous utilisons l'objet Location Javascript mais celui-ci recharge l'application... </p>
+
+      </div>
+
+      <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false">
+        <marker-cluster [points]="points"></marker-cluster>
+      </sebm-google-map>
 
 
     </div>
   </div>
   <!-- END GRID PORTLET-->
 </div>
-

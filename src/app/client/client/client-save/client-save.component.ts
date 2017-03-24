@@ -28,15 +28,14 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
 
   client: Client = {
     id: null, nom: '', prenom: '', description: '',
-    imgPath: '',
-    telephone: '', email: '', genre: '',
+    imgPath: '', telephone: '', email: '', genre: '',
     adresse: {
       rue: "",
       zipcode: "",
       ville: "",
       pays: "",
-      latitude: 47.22714149999999,
-      longitude: -1.6509673000000475
+      latitude: 48.8665906,
+      longitude: 2.317465200000015
     }
   }
 
@@ -65,12 +64,12 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   }
 
 
-  genres: string[] = ['male', 'female'];
+  genres: string[] = ['homme', 'femme'];
   clientForm: FormGroup;
   regexTel = "^[0-9]{10}$";
   regexEmail = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
-    changeState() {
+  changeState() {
     this.state = !this.state;
   }
 
@@ -79,6 +78,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
   onCancel() {
     this.location.back();
   }
+
   onSubmit() {
     this.state = true;
     if (!this.clientForm.valid) {
@@ -89,11 +89,21 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     var clientSaved: Client = this.clientForm.value as Client;
     this.clientService.save(clientSaved);
     var that = this;
-     setTimeout(function () {
-          that.changeState();
-          that.router.navigate(['/client']);
-        }, 2000);
-    // this.router.navigate(['/client']);
+    setTimeout(function () {
+      that.changeState();
+      that.router.navigate(['/client']);
+    }, 2000);
+  }
+
+  //determine si c'est la page d'édition d'un user ou de creation
+  whichForm() {
+
+    if (this.router.url.indexOf('edit') >= 0) {
+      this.isEdit = true;
+
+    } else {
+      this.isEdit = false;
+    }
   }
 
   ngOnInit() {
@@ -107,23 +117,15 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       }
     });
 
-    if (this.router.url.indexOf('edit') >= 0) {
-      console.log('route edit');
-      this.isEdit = true;
-
-    } else {
-      console.log('route add');
-      this.isEdit = false;
-    }
-
+    this.whichForm();
 
     this.buildForm();
 
     //google map API
     //set google maps defaults
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+    this.zoom = 5;
+    this.latitude = 48.8665906,
+    this.longitude = 2.317465200000015
 
     //create search FormControl
     this.searchControl = new FormControl();
@@ -150,17 +152,18 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
           //set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
-          this.zoom = 12;
+          this.zoom = 7;
         });
       });
     });
 
-
   }
 
   ngAfterViewInit() {
-    console.log('isEdit =>');
-    console.log(this.isEdit);
+    this.isEditForm();
+  }
+
+  isEditForm() {
     if (this.isEdit) {
       this.route.params
         .switchMap((params: any) => {
@@ -175,12 +178,9 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
         });
     }
 
-    console.log(this.clientForm);
-
-
-
   }
 
+  //va maper les element input html avec ces parametre
   buildForm() {
     this.clientForm = this.formBuilder.group({
       'id': [this.client.id],
@@ -209,7 +209,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     this.onValueChanged(); // (re)set validation messages now
   }
 
-
+  //lorsqu'une valeur de mon formulaire change, on verifie si chaque parametre est conforme a mes validateurs
   onValueChanged(data?: any) {
     if (!this.clientForm) { return; }
     const form = this.clientForm;
@@ -228,6 +228,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     }
   }
 
+  //de base les msg d'erreur sont vide, puis prendront la valeur des validation messages si erreur
   formErrors = {
     'nom': '',
     'prenom': '',
@@ -243,6 +244,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'imgPath': ''
   };
 
+  //lorsque le champs n'a pas ete changé j'affiche ce message de base
   pristineMessages = {
     'nom': 'Veuillez inscrire votre nom',
     'prenom': 'Veuillez inscrire votre prénom',
@@ -251,9 +253,10 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     'description': 'Veuillez donner une courte description',
     'telephone': 'Veuillez inscrire votre numéro de téléphone au format : 0102030405',
     'autocomplete': 'Veuillez inscrire votre adresse (autocomplétion de celle-ci)',
-    'imgPath': 'Veuillez inscrire votre portrait'
+    'imgPath': 'Veuillez inscrire votre portrait (lien vers une image du net)'
   };
 
+  //message de validation
   validationMessages = {
     'nom': {
       'required': 'le nom est obligatoire.',
@@ -297,6 +300,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
     }
   };
 
+  //creation d'une methode pour afficher la rue car cote vue angular traduit string + string par 'null'
   getRue(): string {
     if (this.autocomplete && this.autocomplete.getPlace() && this.autocomplete.getPlace().address_components) {
       return this.autocomplete.getPlace().address_components[0].long_name + ' ' + this.autocomplete.getPlace().address_components[1].long_name;
@@ -365,7 +369,7 @@ export class ClientSaveComponent implements OnInit, AfterViewInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-        this.zoom = 12;
+        this.zoom = 5;
       });
     }
   }

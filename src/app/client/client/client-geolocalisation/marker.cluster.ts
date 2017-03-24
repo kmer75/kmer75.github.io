@@ -78,6 +78,8 @@ export class MarkerCluster implements OnInit {
               });
               marker.addListener('click', function () {
                 alert('id =>' + point.id + ' ' + 'detail => ' + point.description);
+                //location.href = ''+window.location.host + '/client/detail/'+point.id;
+                location.href = '/client/detail/'+point.id;
               });
               markers.push(marker);
             }
