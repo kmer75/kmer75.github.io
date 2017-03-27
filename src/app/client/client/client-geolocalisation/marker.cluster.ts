@@ -62,26 +62,23 @@ export class MarkerCluster implements OnInit {
                 title: 'cliquer pour avoir le détail de ' + point.prenom
               });
               
-              marker.addListener('mouseover', function () {
+              marker.addListener('click', function () {
  
                 var html = '';
                 html += '<div class="row">';
-                html += '<p class="col-xs-6">' + point.nom + ' ' + point.prenom + '</p>';
-                html += '<img class="col-xs-6" style="width:100px" src="' + point.imgPath + '"/>';
+                html += '<div class="col-xs-6">';
+                html += '<p>' + point.nom + ' ' + point.prenom + '</p>';
+                html += '<a href="/client/detail/'+point.id+'">voir détail</a>';
+                html += '</div>';
+                html += '<div class="col-xs-6">';
+                html += '<img class="col-xs-12" style="width:100px" src="' + point.imgPath + '"/>';
+                html += '</div>';
                 html += '</div>';
 
                 infowindow.setContent(html);
                 infowindow.open(map, marker);
               });
-              marker.addListener('mouseout', function () {
-                infowindow.close(map, marker);
-              });
-              marker.addListener('click', function () {
-                alert('vous serez redirigé vers le détail de '+point.prenom + ' ' + point.nom);
-                //location.href = ''+window.location.host + '/client/detail/'+point.id;
-                location.href = '/client/detail/'+point.id;
-              });
-              markers.push(marker);
+                markers.push(marker);
             }
           } else {
             markers = [];
